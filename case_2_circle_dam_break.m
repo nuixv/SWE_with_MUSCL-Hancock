@@ -1,8 +1,14 @@
-%This code uses a first-order accurate Godunov-type finite volume
-%method with HLLc method 
-%slop limiter : minmod
-%MUSCL-Hancock time integration is used so that the solver is second-order accurate.
-%source term with SGM
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 		This code uses The finite volume method for
+% 	solving The shallow water equations (SWE) with Topoghaphy.
+%			(Circle dam break)
+% 	Approximate the numerical flux by Haten-Lax-van Leer contact.
+% The MUSCL–Hancock method is adopted to achieve over all second-order accuracy.
+% 	The bed slope is estimated using the central-differencing scheme.
+%
+% 		coded by Narong Batsuwan, Narong.ba@hotmail.com
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear
 close all

@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 		This code uses The finite volume method for
 % 	solving The shallow water equations (SWE) with Topoghaphy.
-%				
+%				(River Case)
 % 	Approximate the numerical flux by Haten-Lax-van Leer contact.
 % The MUSCL–Hancock method is adopted to achieve over all second-order accuracy.
 % 	The bed slope is estimated using the central-differencing scheme.
@@ -79,7 +79,7 @@ for tstep=1:nt
             h(1,j) = 2;
             h(2,j) = 2;   
             eta(1,j) = 2;
-            eta(2,j) = 2;             
+            eta(2,j) = 2;
             hu(1,j) = 5;
             hu(2,j) = 5;
             hv(1,j) = 1;

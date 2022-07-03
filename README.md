@@ -5,4 +5,8 @@ The bed slope is estimated using the central-differencing scheme.
 
 Example of case 4 Dam Dry
 
+The water flows from the dam to the other side where the ground is dry.
+
+(ลัษณะการไหลของน้ำจากเขื่อนไปยังอีกฝั่งหนึ่งที่มีลักษณะเป็นพื้นแห้ง)
+
 ![plot](./Case_4_dam_dry/case_4_dam_dry_1.jpg) ![plot](./Case_4_dam_dry/case_4_dam_dry_3.jpg) ![plot](./Case_4_dam_dry/case_4_dam_dry_5.jpg)

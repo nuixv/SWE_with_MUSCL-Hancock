@@ -4,7 +4,7 @@ The MUSCL–Hancock method is adopted to achieve over all second-order accuracy.
 The bed slope is estimated using the central-differencing scheme.
 
 
-Example of case 4 Dam Dry
+Example of case 4 Dam (Dry)
 
 The water that flows from the dam through the gate to the other side is characterized by dry ground.
 

@@ -3,7 +3,7 @@
 % 	solving The shallow water equations (SWE) with Topoghaphy.
 %                       (Dam_dry)
 % 	Approximate the numerical flux by Haten-Lax-van Leer contact.
-% The MUSCL–Hancock method is adopted to achieve over all second-order accuracy.
+% The MUSCLï¿½Hancock method is adopted to achieve over all second-order accuracy.
 % 	The bed slope is estimated using the central-differencing scheme.
 %
 % 		coded by Narong Batsuwan, Narong.ba@hotmail.com
@@ -81,7 +81,7 @@ end
 
     for i=1:n+4
         for j=1:m+4
-            if (z(i,j)>=h(i,j))
+            if (h(i,j) < 0)
                 h(i,j) = 0.0;
             end
         end
@@ -437,10 +437,12 @@ end
         end
 	end
 %--------------------------------------------------------------------------
-    for i=1:n+4
-        for j=1:m+4
-            if (z(i,j)>=h(i,j))
+    for i=3:n+2
+        for j=3:m+2
+            if (h(i,j) < 0)
                 h(i,j) = 0.0;
+                hu(i,j) = 0.0;
+                hv(i,j) = 0.0;
             end
         end
     end
@@ -703,10 +705,12 @@ end
         end
 	end
 %--------------------------------------------------------------------------
-    for i=1:n+4
-        for j=1:m+4
-            if (z(i,j)>=h(i,j))
+    for i=3:n+2
+        for j=3:m+2
+            if (h(i,j) < 0)
                 h(i,j) = 0.0;
+                hu(i,j) = 0.0;
+                hv(i,j) = 0.0;
             end
         end
     end

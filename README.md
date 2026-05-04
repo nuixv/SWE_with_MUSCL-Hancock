@@ -1,12 +1,21 @@
 # SWE_with_MUSCL-Hancock
+
 Solve The Shallow Water Equations with Finite volume method and approximate the numerical flux by Haten-Lax-van Leer contact.
 The MUSCL–Hancock method is adopted to achieve over all second-order accuracy.
 The bed slope is estimated using the central-differencing scheme.
 
+---
 
-Example of case 4 Dam (Dry)
+## Cases
 
-The water that flows from the dam through the gate to the other side is characterized by dry ground.
+| File | Dimensions | Domain | Cells | Steps | Scenario |
+|------|-----------|--------|-------|-------|----------|
+| `case_1_1DHump_and_Exact.m` | 1D | 1000 m | 41 | 2522 | Flow over cosine hump, compared to exact solution |
+| `case_2_circle_dam_break.m` | 2D | 200×200 m | 85×85 | 200 | Circular dam break, radial propagation |
+| `case_3_water_flowing_through_the_river.m` | 2D | 6×6 m | 60×60 | 600 | River flow with natural topography |
+| `case_4_dam_dry.m` | 2D | 100×100 m | 200×200 | 350 | Dam break onto dry ground through a gate |
+
+Example of case 4 Dam (Dry) — water flows from the dam through the gate onto dry ground.
 
 (ลักษณะน้ำที่ไหลจากเขื่อนผ่านประตูไปยังอีกฝั่งหนึ่งที่มีลักษณะพื้นแห้ง)
 
@@ -14,9 +23,67 @@ The water that flows from the dam through the gate to the other side is characte
 
 ---
 
+## Running the Code (MATLAB)
+
+Each case script is self-contained and run directly in MATLAB:
+
+```matlab
+run('case_1_1DHump_and_Exact.m')
+run('case_2_circle_dam_break.m')
+run('case_3_water_flowing_through_the_river.m')
+run('case_4_dam_dry.m')
+```
+
+Each script uses `clear` and `close all` at the top, so they can be run independently.
+
+---
+
+## Numerical Algorithm
+
+All cases implement the same two-stage MUSCL-Hancock pipeline:
+
+### State Variables (per cell)
+- `h` — water depth
+- `eta` — water surface elevation (`eta = h + z`)
+- `hu`, `hv` — discharge (momentum) in x and y directions
+- `z` — bed topography elevation
+- `zbx`, `zby` — interface topography value (well-balancing)
+
+### Grid Layout
+Arrays are sized `n+4` for `n` interior cells, with 2 ghost layers on each side. Interior cells occupy indices `3:n+2`; flux loops run over `3:n+3`.
+
+### Two-Stage Update (per time step)
+1. **Slope limiting** via `minmod()` for `h`, `eta`, `hu`/`hv` on both sides of each interface.
+2. **Data reconstruction** — piecewise-linear extrapolation to cell faces.
+3. **Well-balancing fix** — `zbx(i) = max(zl, zr)`, then recompute `hl = max(0, etal - zbx(i))`.
+4. **HLLC flux computation** — wave speeds `Sl`, `Sr`, `Sm`; flux selected from left/middle/right region.
+5. **Solution update** — flux divergence + bed slope source term, factor `0.5*dt/dx`.
+6. Repeat stages 1–5 (completing the full Hancock two-stage predictor-corrector).
+
+### Key Constants
+- `grav = 9.806` m/s²
+- Dry-bed threshold: `h < 1.0e-06` — velocity set to zero to avoid division by near-zero depth
+- CFL factor: `dt = 0.5 * dx / max(|u| + sqrt(g*h))`
+
+### Bed Slope Source Term
+```
+sox = ((hlx(i+1) + hrx(i)) / 2) * ((zbx(i+1) - zbx(i)) / dx)
+```
+
+### 2D Extension
+Cases 2–4 use **operator splitting** (x-sweep then y-sweep per time step):
+```matlab
+dt = 0.5 / (max(max(abs(u)+sqrt(grav*h)))/dx + max(max(abs(v)+sqrt(grav*h)))/dy)
+```
+
+### Shared Utility
+`minmod.m` — slope limiter: returns the smaller-magnitude value if both have the same sign, otherwise 0.
+
+---
+
 ## Bug Fixes
 
-**Positivity and dry-bed handling** (`case_2`, `case_3`, `case_4`): Fixed spurious flow on dry cells by enforcing a minimum depth threshold (`h < 1e-6`) and flooring negative depths to zero after each update. This allows stable simulation over non-flat terrain and dry-ground dam-break scenarios.
+**Positivity and dry-bed handling** (`case_2`, `case_3`, `case_4`): Fixed spurious flow on dry cells by enforcing the dry-bed threshold and flooring negative depths to zero after each update. This allows stable simulation over non-flat terrain and dry-ground dam-break scenarios.
 
 ---
 

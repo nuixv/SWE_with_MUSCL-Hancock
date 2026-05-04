@@ -1,4 +1,4 @@
-# SWE_with_MUSCL-Hancock
+# Shallow Water Equations with MUSCL-Hancock
 
 Solve The Shallow Water Equations with Finite volume method and approximate the numerical flux by Haten-Lax-van Leer contact.
 The MUSCL–Hancock method is adopted to achieve over all second-order accuracy.

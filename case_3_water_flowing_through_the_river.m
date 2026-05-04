@@ -85,8 +85,8 @@ for tstep=1:nt
             hv(1,j) = 1;
             hv(2,j) = 1;
           else
-            h(1,j) = eta(3,j);
-            h(2,j) = eta(3,j);              
+            h(1,j) = h(3,j);
+            h(2,j) = h(3,j);
             eta(1,j) = eta(3,j);
             eta(2,j) = eta(3,j);
             hu(1,j) = hu(3,j);
@@ -410,10 +410,12 @@ end
         end
 	end
 %--------------------------------------------------------------------------
-    for i=1:n+4
-        for j=1:m+4
-            if (z(i,j)>=h(i,j))
+    for i=3:n+2
+        for j=3:m+2
+            if (h(i,j) < 0)
                 h(i,j) = 0.0;
+                hu(i,j) = 0.0;
+                hv(i,j) = 0.0;
             end
         end
     end
@@ -676,10 +678,12 @@ end
         end
 	end
 %--------------------------------------------------------------------------
-    for i=1:n+4
-        for j=1:m+4
-            if (z(i,j)>=h(i,j))
+    for i=3:n+2
+        for j=3:m+2
+            if (h(i,j) < 0)
                 h(i,j) = 0.0;
+                hu(i,j) = 0.0;
+                hv(i,j) = 0.0;
             end
         end
     end

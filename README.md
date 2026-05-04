@@ -6,20 +6,29 @@ The bed slope is estimated using the central-differencing scheme.
 
 ---
 
+## Repository Structure
+
+```
+matlab/          — MATLAB case scripts and shared utility
+python/          — Python 1D solver port with pytest suite
+```
+
+---
+
 ## Cases
 
 | File | Dimensions | Domain | Cells | Steps | Scenario |
 |------|-----------|--------|-------|-------|----------|
-| `case_1_1DHump_and_Exact.m` | 1D | 1000 m | 41 | 2522 | Flow over cosine hump, compared to exact solution |
-| `case_2_circle_dam_break.m` | 2D | 200×200 m | 85×85 | 200 | Circular dam break, radial propagation |
-| `case_3_water_flowing_through_the_river.m` | 2D | 6×6 m | 60×60 | 600 | River flow with natural topography |
-| `case_4_dam_dry.m` | 2D | 100×100 m | 200×200 | 350 | Dam break onto dry ground through a gate |
+| `matlab/case_1_1d_hump_and_exact.m` | 1D | 1000 m | 41 | 2522 | Flow over cosine hump, compared to exact solution |
+| `matlab/case_2_circle_dam_break.m` | 2D | 200×200 m | 85×85 | 200 | Circular dam break, radial propagation |
+| `matlab/case_3_water_flowing_through_the_river.m` | 2D | 6×6 m | 60×60 | 600 | River flow with natural topography |
+| `matlab/case_4_dam_dry.m` | 2D | 100×100 m | 200×200 | 350 | Dam break onto dry ground through a gate |
 
 Example of case 4 Dam (Dry) — water flows from the dam through the gate onto dry ground.
 
 (ลักษณะน้ำที่ไหลจากเขื่อนผ่านประตูไปยังอีกฝั่งหนึ่งที่มีลักษณะพื้นแห้ง)
 
-![plot](./Case_4_dam_dry/case_4_dam_dry_1.jpg) ![plot](./Case_4_dam_dry/case_4_dam_dry_3.jpg) ![plot](./Case_4_dam_dry/case_4_dam_dry_5.jpg)
+![plot](./matlab/case_4_dam_dry/case_4_dam_dry_1.jpg) ![plot](./matlab/case_4_dam_dry/case_4_dam_dry_3.jpg) ![plot](./matlab/case_4_dam_dry/case_4_dam_dry_5.jpg)
 
 ---
 
@@ -28,10 +37,10 @@ Example of case 4 Dam (Dry) — water flows from the dam through the gate onto d
 Each case script is self-contained and run directly in MATLAB:
 
 ```matlab
-run('case_1_1DHump_and_Exact.m')
-run('case_2_circle_dam_break.m')
-run('case_3_water_flowing_through_the_river.m')
-run('case_4_dam_dry.m')
+run('matlab/case_1_1d_hump_and_exact.m')
+run('matlab/case_2_circle_dam_break.m')
+run('matlab/case_3_water_flowing_through_the_river.m')
+run('matlab/case_4_dam_dry.m')
 ```
 
 Each script uses `clear` and `close all` at the top, so they can be run independently.
@@ -77,7 +86,7 @@ dt = 0.5 / (max(max(abs(u)+sqrt(grav*h)))/dx + max(max(abs(v)+sqrt(grav*h)))/dy)
 ```
 
 ### Shared Utility
-`minmod.m` — slope limiter: returns the smaller-magnitude value if both have the same sign, otherwise 0.
+`matlab/minmod.m` — slope limiter: returns the smaller-magnitude value if both have the same sign, otherwise 0.
 
 ---
 
